@@ -48,7 +48,7 @@ export default function EmployeeForm() {
           <div className="lg:col-span-2 p-10">
             {/* form fubmitted successfully */}
             {step > 3 && (
-              <div className="flex flex-col items-center justify-center space-y-4">
+              <div className="flex flex-col items-center justify-center space-y-4 mx-auto py-12 text-center">
                 <Check size={48} className="text-green-500" />
                 <h2 className="text-2xl font-bold text-white">
                   Form Submitted Successfully!
@@ -82,8 +82,8 @@ export default function EmployeeForm() {
                     <StepThree register={register} errors={errors} />
                   )}
 
-                  <div className="mt-10 flex justify-between">
-                    {step > 2 ? (
+                  <div className="mt-10 gap-4 flex justify-between">
+                    {step > 1 ? (
                       <button
                         type="button"
                         onClick={() => setStep(step - 1)}
