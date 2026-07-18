@@ -4,7 +4,7 @@ import Image from "next/image";
 export default function Home() {
   return (
     <div className="flex flex-col flex-1 items-center justify-center  font-sans bg-[#09111F]">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-15 px-16 bg-[#09111F] sm:items-start">
+      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-10 px-16 bg-[#09111F] sm:items-start">
        
       <EmployeeForm/>
         
