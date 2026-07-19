@@ -1,6 +1,6 @@
 import React from 'react'
 
-const StepOne = ({register,errors,addressFields}) => {
+const StepOne = ({register,errors,addressFields }) => {
   return (
     <div>
     {/* =================== SECTION 1: PERSONAL DETAILS =================== */}
@@ -26,7 +26,7 @@ const StepOne = ({register,errors,addressFields}) => {
                             ? "border-red-500 focus:ring-red-200"
                             : "border-slate-300 focus:border-[#23466f] focus:ring-[#23466f]/20"
                         }`}
-                        placeholder="e.g. Mr / Ms / Dr"
+                        placeholder="Position applied for"
                       />
                       {errors.title && (
                         <p className="text-xs text-red-500 font-medium">
@@ -390,14 +390,15 @@ const StepOne = ({register,errors,addressFields}) => {
                           (British / Settled / Visa)
                         </span>
                       </label>
-                      <input
-                        {...register("rtwBasis")}
-                        className={`w-full rounded-lg border bg-white px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#23466f]/20 transition-all ${
-                          errors.rtwBasis
-                            ? "border-red-500"
-                            : "border-slate-300 focus:border-[#23466f]"
-                        }`}
-                      />
+                       <select
+                         {...register("rtwBasis")}
+                         className={`w-full rounded-lg border bg-white px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#23466f]/20 transition-all ${errors.rtwBasis ? "border-red-500" : "border-slate-300 focus:border-[#23466f]"}`}
+                       >
+                         <option value="">Select</option>
+                         <option value="British">British</option>
+                         <option value="Settled">Settled</option>
+                         <option value="Visa">Visa</option>
+                       </select>
                       {errors.rtwBasis && (
                         <p className="text-xs text-red-500 font-medium">
                           {errors.rtwBasis.message}
