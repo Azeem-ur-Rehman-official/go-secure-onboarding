@@ -37,10 +37,10 @@ export default function EmployeeForm() {
     });
   }, [step]);
   return (
-    <section className="min-h-screen bg-[#09111F] py-16 ">
+    <section className="min-h-screen py-16 ">
       <div
         ref={formRef}
-        className="mx-auto max-w-3xl overflow-hidden rounded-2xl border border-[#233454] bg-[#0D1526] shadow-[0_20px_60px_rgba(0,0,0,.45)]"
+        className="mx-auto max-w-3xl overflow-hidden rounded-2xl border "
       >
         <div className="grid lg:grid-cols-2">
           {/* LEFT */}
@@ -50,7 +50,7 @@ export default function EmployeeForm() {
             {step > 3 && (
               <div className="flex flex-col items-center justify-center space-y-4 mx-auto py-12 text-center">
                 <Check size={48} className="text-green-500" />
-                <h2 className="text-2xl font-bold text-white">
+                <h2 className="text-2xl font-bold ">
                   Form Submitted Successfully!
                 </h2>
                 <p className="text-gray-400">
@@ -65,10 +65,21 @@ export default function EmployeeForm() {
                 <p className="mb-2 text-gray-400">
                   Complete the onboarding form below.
                 </p>
-                <h1 className="mb-8 text-4xl font-bold text-white">
+                <h1 className="mb-8 text-4xl font-bold ">
                   Employee Onboarding
                 </h1>
-                <ProgressBar step={step} />
+                <div className="flex justify-between mb-1">
+                  <span className="text-sm font-medium text-body">
+                    Flowbite
+                  </span>
+                  <span className="text-sm font-medium text-body">45%</span>
+                </div>
+                <div className="w-full bg-neutral-quaternary rounded-full h-2">
+                  <div
+                    className="bg-brand h-2 rounded-full"
+                    style={{ width: "45%" }}
+                  ></div>
+                </div>
                 <form onSubmit={handleSubmit(submit)} className="mt-10">
                   {step === 1 && (
                     <StepOne register={register} errors={errors} />

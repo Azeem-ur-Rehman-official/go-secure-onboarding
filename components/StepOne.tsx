@@ -1,9 +1,9 @@
 export default function StepOne({ register }: any) {
   const inputClass =
-    "w-full h-14 rounded-lg border border-[#2A3550] bg-[#131C2E] px-4 text-white placeholder:text-gray-500 outline-none transition-all duration-300 focus:border-[#1E6BFF] focus:ring-2 focus:ring-[#1E6BFF]/30";
+    "w-full h-14 rounded-lg border border-[#2A3550] px-4 text-white placeholder:text-gray-500 outline-none transition-all duration-300 focus:border-[#1E6BFF] focus:ring-2 focus:ring-[#1E6BFF]/30";
 
   const textareaClass =
-    "w-full rounded-lg border border-[#2A3550] bg-[#131C2E] px-4 py-3 text-white placeholder:text-gray-500 outline-none transition-all duration-300 focus:border-[#1E6BFF] focus:ring-2 focus:ring-[#1E6BFF]/30";
+    "w-full rounded-lg border border-[#2A3550] px-4 py-3 text-white placeholder:text-gray-500 outline-none transition-all duration-300 focus:border-[#1E6BFF] focus:ring-2 focus:ring-[#1E6BFF]/30";
 
   return (
     <div className="space-y-10 text-white">
