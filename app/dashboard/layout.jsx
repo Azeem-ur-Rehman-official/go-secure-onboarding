@@ -24,7 +24,7 @@ export default function DashboardLayout({ children }) {
           setOpen={setOpen}
         />
 
-        <main className="p-6">
+        <main className="p-0 md:p-6">
           {children}
         </main>
 

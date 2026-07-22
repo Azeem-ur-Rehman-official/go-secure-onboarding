@@ -14,7 +14,7 @@ import {
 } from "lucide-react";
 import Link from "next/link";
 export default function MobileSidebar({ open, setOpen }) {
-    const pathname=usePathname()
+  const pathname = usePathname();
   const menus = [
     {
       title: "Dashboard",
@@ -29,9 +29,9 @@ export default function MobileSidebar({ open, setOpen }) {
     },
 
     {
-      title: "Documents",
+      title: "Applications",
       icon: FileText,
-      href: "/documents",
+      href: "/dashboard/application",
     },
 
     {
@@ -74,51 +74,37 @@ export default function MobileSidebar({ open, setOpen }) {
             <X />
           </button>
         </div>
-       <nav className="flex-1 p-5 space-y-2">
+        <nav className="flex-1 p-5 space-y-2">
+          {menus.map((item) => {
+            const Icon = item.icon;
 
-{
-menus.map((item)=>{
+            return (
+              <Link
+                key={item.title}
+                href={item.href}
+                className={`flex items-center gap-4 p-3 rounded-xl transition
 
-const Icon=item.icon;
-
-return(
-
-<Link
-key={item.title}
-href={item.href}
-className={`flex items-center gap-4 p-3 rounded-xl transition
-
-${pathname===item.href
-?"bg-blue-600 text-white"
-:"text-slate-700 hover:bg-slate-100"}
-
-`}
->
-
-<Icon size={20}/>
-
-{item.title}
-
-</Link>
-
-)
-
-})
-
+${
+  pathname === item.href
+    ? "bg-blue-600 text-white"
+    : "text-slate-700 hover:bg-slate-100"
 }
 
-</nav>
-<div className="p-5 border-t">
+`}
+              >
+                <Icon size={20} />
 
-<button className="flex items-center gap-3 text-red-500">
-
-<LogOut/>
-
-Logout
-
-</button>
-
-</div>
+                {item.title}
+              </Link>
+            );
+          })}
+        </nav>
+        <div className="p-5 border-t">
+          <button className="flex items-center gap-3 text-red-500">
+            <LogOut />
+            Logout
+          </button>
+        </div>
         {/* <Sidebar /> */}
       </div>
     </>
