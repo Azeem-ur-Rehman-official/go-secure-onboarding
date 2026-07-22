@@ -101,7 +101,7 @@ console.log("res",res);
         
         {/* Header */}
         <div className="mb-8 flex flex-col items-center text-center">
-          <Image src="/logo.webp" width={200} height={200}/>
+          <Image alt='logo' src="/logo.webp" width={200} height={200}/>
           <h1 className="text-3xl font-extrabold tracking-tight text-white">Welcome Back</h1>
           <p className="mt-2 text-sm text-slate-300">Enter your credentials to access your account</p>
         </div>
