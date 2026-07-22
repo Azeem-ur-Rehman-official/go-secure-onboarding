@@ -1,3 +1,6 @@
+"use client";
+
+import { useEffect, useState } from "react";
 import {
   Users,
   Clock3,
@@ -7,46 +10,86 @@ import {
   Download,
 } from "lucide-react";
 
-const stats = [
-  {
-    title: "Total Employees",
-    value: 325,
-    icon: Users,
-    color: "bg-blue-100 text-blue-600",
-  },
-  {
-    title: "Pending Records",
-    value: 18,
-    icon: Clock3,
-    color: "bg-yellow-100 text-yellow-600",
-  },
-  {
-    title: "Approved",
-    value: 296,
-    icon: CheckCircle2,
-    color: "bg-green-100 text-green-600",
-  },
-  {
-    title: "Rejected",
-    value: 11,
-    icon: XCircle,
-    color: "bg-red-100 text-red-600",
-  },
-  {
-    title: "Documents",
-    value: 1458,
-    icon: FileText,
-    color: "bg-purple-100 text-purple-600",
-  },
-  {
-    title: "Downloads",
-    value: 583,
-    icon: Download,
-    color: "bg-cyan-100 text-cyan-600",
-  },
-];
+interface DashboardStats {
+  totalEmployees: number;
+  pendingRecords: number;
+  approvedRecords: number;
+  rejectedRecords: number;
+  totalReferences: number;
+}
 
 export default function Dashboard() {
+  const [stats, setStats] = useState<DashboardStats>({
+    totalEmployees: 0,
+    pendingRecords: 0,
+    approvedRecords: 0,
+    rejectedRecords: 0,
+    totalReferences: 0,
+  });
+
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    getDashboardStats();
+  }, []);
+
+  const getDashboardStats = async () => {
+    try {
+      const res = await fetch("/api/dashboard", {
+        cache: "no-store",
+      });
+
+      const result = await res.json();
+
+      if (result.success) {
+        setStats(result.data);
+      }
+    } catch (err) {
+      console.error(err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const cards = [
+    {
+      title: "Total Applications",
+      value: stats.totalEmployees,
+      icon: FileText,
+      color: "bg-blue-100 text-blue-600",
+    },
+    {
+      title: "Pending Records",
+      value: stats.pendingRecords,
+      icon: Clock3,
+      color: "bg-yellow-100 text-yellow-600",
+    },
+    {
+      title: "Approved",
+      value: stats.approvedRecords,
+      icon: CheckCircle2,
+      color: "bg-green-100 text-green-600",
+    },
+    {
+      title: "Rejected",
+      value: stats.rejectedRecords,
+      icon: XCircle,
+      color: "bg-red-100 text-red-600",
+    },
+    {
+      title: "References",
+      value: stats.totalReferences,
+      icon: FileText,
+      color: "bg-purple-100 text-purple-600",
+    },
+    {
+      title: "Total Emplyees",
+      value: 0,
+      icon: Users,
+      color: "bg-cyan-100 text-cyan-600",
+    },
+  ];
+
   return (
     <div className="space-y-8">
       {/* Header */}
@@ -60,9 +103,9 @@ export default function Dashboard() {
         </p>
       </div>
 
-      {/* Stats Cards */}
+      {/* Cards */}
       <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-6">
-        {stats.map((item) => {
+        {cards.map((item) => {
           const Icon = item.icon;
 
           return (
@@ -77,7 +120,11 @@ export default function Dashboard() {
                   </p>
 
                   <h2 className="text-3xl font-bold text-gray-800 mt-2">
-                    {item.value}
+                    {loading ? (
+                      <span className="animate-pulse">...</span>
+                    ) : (
+                      item.value
+                    )}
                   </h2>
                 </div>
 
@@ -110,63 +157,8 @@ export default function Dashboard() {
           </button>
         </div>
 
-        <div className="overflow-x-auto">
-          <table className="w-full text-sm">
-            <thead className="bg-gray-50">
-              <tr>
-                <th className="text-left px-6 py-4 font-semibold text-gray-600">
-                  Employee
-                </th>
-
-                <th className="text-left px-6 py-4 font-semibold text-gray-600">
-                  Email
-                </th>
-
-                <th className="text-left px-6 py-4 font-semibold text-gray-600">
-                  Status
-                </th>
-
-                <th className="text-left px-6 py-4 font-semibold text-gray-600">
-                  Submitted
-                </th>
-              </tr>
-            </thead>
-
-            <tbody>
-              <tr className="border-t hover:bg-gray-50">
-                <td className="px-6 py-4">John Smith</td>
-                <td className="px-6 py-4">john@gmail.com</td>
-                <td className="px-6 py-4">
-                  <span className="bg-yellow-100 text-yellow-700 px-3 py-1 rounded-full text-xs">
-                    Pending
-                  </span>
-                </td>
-                <td className="px-6 py-4">Today</td>
-              </tr>
-
-              <tr className="border-t hover:bg-gray-50">
-                <td className="px-6 py-4">Ahmed Ali</td>
-                <td className="px-6 py-4">ahmed@gmail.com</td>
-                <td className="px-6 py-4">
-                  <span className="bg-green-100 text-green-700 px-3 py-1 rounded-full text-xs">
-                    Approved
-                  </span>
-                </td>
-                <td className="px-6 py-4">Yesterday</td>
-              </tr>
-
-              <tr className="border-t hover:bg-gray-50">
-                <td className="px-6 py-4">Usman Khan</td>
-                <td className="px-6 py-4">usman@gmail.com</td>
-                <td className="px-6 py-4">
-                  <span className="bg-red-100 text-red-700 px-3 py-1 rounded-full text-xs">
-                    Rejected
-                  </span>
-                </td>
-                <td className="px-6 py-4">2 Days Ago</td>
-              </tr>
-            </tbody>
-          </table>
+        <div className="p-8 text-center text-gray-500">
+          Recent applications table will be connected next.
         </div>
       </div>
     </div>

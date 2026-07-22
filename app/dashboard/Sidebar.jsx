@@ -28,9 +28,9 @@ href:"/employees"
 },
 
 {
-title:"Documents",
+title:"Applications",
 icon:FileText,
-href:"/documents"
+href:"/application"
 },
 
 {

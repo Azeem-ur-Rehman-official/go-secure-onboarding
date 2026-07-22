@@ -161,7 +161,7 @@ const StepTwo = ({ register, errors,employmentFields }) => {
 
           {/* Table Rows Array rendering */}
           <div className="divide-y divide-slate-200">
-            {employmentFields.map((index) => {
+            {employmentFields.map((_,index) => {
               const rowErrors = errors?.employmentHistory?.[index];
               return (
                 <div key={index} className="grid grid-cols-1 lg:grid-cols-12 p-4 lg:p-3 gap-3 bg-white items-start">

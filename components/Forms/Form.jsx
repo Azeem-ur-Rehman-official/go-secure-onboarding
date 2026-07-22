@@ -389,14 +389,18 @@ const Form = () => {
       const result = await response.json();
 
       console.log(result);
+      setSubmissionSuccess(true);
     } catch (error) {
+      //create popup modal to display error message
+     
+
       console.log(error);
     }
   };
   const onFinalFormSubmit = (data) => {
     console.log("Ultimate Validated Data Payloads:", data ?? {});
-    // finalSubmit(data);
-     setSubmissionSuccess(true);
+    finalSubmit(data);
+    // setSubmissionSuccess(true);
   };
 
   const handleBack = (e) => {
