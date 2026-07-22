@@ -1,4 +1,4 @@
-import EmployeeForm from "@/components/EmployeeForm";
+
 import Form from "@/components/Forms/Form";
 
 export default function Home() {

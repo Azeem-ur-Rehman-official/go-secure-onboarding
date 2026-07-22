@@ -58,18 +58,16 @@ const masterFormSchema = z
     siaExpiryDate: z.string().min(1, "SIA expiry date is required"),
     siaLicenceStatus: z.string().min(1, "SIA licence status is required"),
     yearsOfExperience: z.string().min(1, "Years of experience is required"),
-    primaryRoleExperience: z.string().min(1, "Primary role experience is required"),
-    employmentHistory: z
-      .array(
-        z.object({
-          employer: z.string(),
-          jobTitle: z.string(),
-          fromDate: z.string(),
-          toDate: z.string(),
-          reasonForLeaving: z.string(),
-        }),
-      )
-      ,
+
+    employmentHistory: z.array(
+      z.object({
+        employer: z.string(),
+        jobTitle: z.string(),
+        fromDate: z.string(),
+        toDate: z.string(),
+        reasonForLeaving: z.string(),
+      }),
+    ),
     // --- SECTION 7: EMPLOYEE REFERENCES (Strictly requires 2 complete reference bodies) ---
     references: z
       .array(
@@ -210,12 +208,12 @@ const Form = () => {
       rightToWork: "yes",
       rightToLicense: "yes",
       // Pre-populate 5 rows for address history grid matching your layout
-      addressHistory: Array(1).fill({
+      addressHistory: Array(5).fill({
         fullAddress: "",
         postcode: "",
         timelineDate: "",
       }),
-      employmentHistory: Array(1).fill({
+      employmentHistory: Array(5).fill({
         employer: "",
         jobTitle: "",
         fromDate: "",
@@ -228,7 +226,7 @@ const Form = () => {
         email: "",
         telephone: "",
       }),
-      education: Array(1).fill({
+      education: Array(4).fill({
         institution: "",
         qualification: "",
         year: "",
@@ -286,7 +284,7 @@ const Form = () => {
     "siaExpiryDate",
     "siaLicenceStatus",
     "yearsOfExperience",
-    "primaryRoleExperience",
+
     "employmentHistory",
   ];
   const stepThreeFields = [
@@ -378,11 +376,27 @@ const Form = () => {
     });
     doc.save("employee_onboarding.pdf");
   };
+  const finalSubmit = async (data) => {
+    try {
+      const response = await fetch("/api/employees", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+      });
 
+      const result = await response.json();
+
+      console.log(result);
+    } catch (error) {
+      console.log(error);
+    }
+  };
   const onFinalFormSubmit = (data) => {
     console.log("Ultimate Validated Data Payloads:", data ?? {});
-    generatePdf();
-    setSubmissionSuccess(true);
+    finalSubmit(data);
+    // setSubmissionSuccess(true);
   };
 
   const handleBack = (e) => {

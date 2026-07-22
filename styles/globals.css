@@ -1,0 +1,126 @@
+/* globals.css - premium styling */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
+
+:root {
+  --font-primary: 'Inter', sans-serif;
+  /* Light theme palette */
+  --color-bg: hsl(0, 0%, 98%);            /* near‑white background */
+  --color-surface: hsl(0, 0%, 100%);      /* pure white cards */
+  --color-primary: hsl(220, 80%, 45%);    /* calm blue primary */
+  --color-primary-foreground: hsl(0, 0%, 100%);
+  --color-accent: hsl(340, 70%, 55%);     /* keep accent for alerts */
+  --color-muted: hsl(210, 10%, 70%);      /* light muted text */
+  --radius: 0.75rem;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: var(--font-primary);
+  background: var(--color-bg);
+  color: hsl(210, 10%, 20%); /* dark‑gray text for readability */
+  line-height: 1.6;
+}
+
+a {
+  color: var(--color-primary);
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+a:hover {
+  color: var(--color-accent);
+}
+
+.dashboard-wrapper {
+  display: flex;
+  min-height: 100vh;
+}
+
+.sidebar {
+  width: 220px;
+  background: var(--color-surface);
+  padding: 1.5rem;
+  border-right: 1px solid var(--color-muted);
+}
+
+.main-content {
+  flex: 1;
+  padding: 2rem;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem;
+}
+
+/* Card style for table rows */
+.card {
+  background: var(--color-surface);
+  border-radius: var(--radius);
+  padding: 1rem 1.5rem;
+  margin-bottom: 1rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+.button {
+  cursor: pointer;
+  border: none;
+  border-radius: var(--radius);
+  padding: 0.5rem 1rem;
+  font-weight: 600;
+  transition: background 0.2s, transform 0.1s;
+}
+
+.button-primary {
+  background: var(--color-primary);
+  color: var(--color-primary-foreground);
+}
+
+.button-primary:hover {
+  background: hsl(210, 80%, 65%);
+}
+
+.button-danger {
+  background: var(--color-accent);
+  color: var(--color-primary-foreground);
+}
+
+.button-danger:hover {
+  background: hsl(340, 70%, 65%);
+}
+
+.input {
+  padding: 0.5rem 0.75rem;
+  border-radius: var(--radius);
+  border: 1px solid var(--color-muted);
+  background: rgba(255, 255, 255, 0.08);
+  color: #fff;
+  outline: none;
+  width: 100%;
+  transition: border-color 0.2s;
+}
+
+.input:focus {
+  border-color: var(--color-primary);
+}
+
+.search-bar {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 1.5rem;
+}

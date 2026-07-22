@@ -10,7 +10,7 @@ const StepTwo = ({ register, errors,employmentFields }) => {
             <span className="flex items-center justify-center bg-[#23466f] text-white w-7 h-7 rounded-full text-sm">
               4
             </span>
-            DRIVING LICENSE (OPTIONAL)
+            DRIVING LICENSE
           </h2>
         </div>
 
@@ -130,14 +130,7 @@ const StepTwo = ({ register, errors,employmentFields }) => {
             />
           </div>
 
-          <div className="flex flex-col gap-1.5 md:col-span-2">
-            <label className="text-sm font-semibold text-slate-600">Primary Role Experience *</label>
-            <input
-              {...register("primaryRoleExperience")}
-              placeholder="e.g. Door Supervision / Guarding"
-              className="w-full rounded-lg border bg-white px-3 py-2 text-sm focus:outline-none"
-            />
-          </div>
+          
         </div>
       </section>
 
