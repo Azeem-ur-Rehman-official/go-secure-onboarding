@@ -15,6 +15,23 @@ import StepFive from "./StepFive";
 const masterFormSchema = z
   .object({
     // --- SECTION 1: PERSONAL DETAILS ---
+     profilePhoto: z
+    .instanceof(File)
+    .optional()
+    .refine(
+      (file) => !file || file.size <= 5 * 1024 * 1024,
+      {
+        message: "Image size must be less than 5MB",
+      }
+    )
+    .refine(
+      (file) =>
+        !file ||
+        ["image/jpeg", "image/png", "image/webp"].includes(file.type),
+      {
+        message: "Only JPG, PNG and WEBP images are allowed",
+      }
+    ),
     title: z.string().min(1, "Title is required"),
     preferredName: z.string().optional(),
     surname: z.string().min(2, "Surname must be at least 2 characters"),
@@ -34,9 +51,9 @@ const masterFormSchema = z
     // --- SECTION 2: CURRENT ADDRESS & HISTORY (5 YEARS) ---
     addressHistory: z.array(
       z.object({
-        fullAddress: z.string().min(1, "Full address is required"),
-        postcode: z.string().min(2, "Postcode is required"),
-        timelineDate: z.string().min(1, "Date is required"),
+        fullAddress: z.string().optional(),
+        postcode: z.string().optional(),
+        timelineDate: z.string().optional(),
       }),
     ),
 
@@ -49,6 +66,24 @@ const masterFormSchema = z
     passportNationality: z.string().min(2, "Passport nationality is required"),
     passportExpiryDate: z.string().min(1, "Passport expiry date is required"),
     shareCode: z.string().optional(),
+    // Optional driving license photo upload
+    drivingLicensePhoto: z
+      .instanceof(File)
+      .optional()
+      .refine(
+        (file) => !file || file.size <= 5 * 1024 * 1024,
+        {
+          message: "Image size must be less than 5MB",
+        }
+      )
+      .refine(
+        (file) =>
+          !file ||
+          ["image/jpeg", "image/png", "image/webp"].includes(file.type),
+        {
+          message: "Only JPG, PNG and WEBP images are allowed",
+        }
+      ),
     rightToLicense: z.string().optional(),
     licenseNumber: z.string().optional(),
     categoriesHeld: z.string().optional(),
@@ -57,7 +92,7 @@ const masterFormSchema = z
     siaLicenceType: z.string().min(1, "SIA licence type is required"),
     siaExpiryDate: z.string().min(1, "SIA expiry date is required"),
     siaLicenceStatus: z.string().min(1, "SIA licence status is required"),
-    yearsOfExperience: z.string().min(1, "Years of experience is required"),
+    yearsOfExperience: z.string().optional(),
 
     employmentHistory: z.array(
       z.object({
@@ -198,6 +233,7 @@ const Form = () => {
     trigger,
     control,
     watch,
+    setValue,
     formState: { errors },
   } = useForm({
     resolver: zodResolver(masterFormSchema),
@@ -206,6 +242,8 @@ const Form = () => {
     defaultValues: {
       medical: {},
       rightToWork: "yes",
+      profilePhoto: undefined,
+      drivingLicensePhoto: undefined,
       rightToLicense: "yes",
       // Pre-populate 5 rows for address history grid matching your layout
       addressHistory: Array(5).fill({
@@ -254,6 +292,7 @@ const Form = () => {
 
   // Array of fields to validate specifically before leaving Step 1
   const stepOneFields = [
+    "profilePhoto",
     "title",
     "preferredName",
     "surname",
@@ -275,6 +314,7 @@ const Form = () => {
     "shareCode",
   ];
   const stepTwoFields = [
+    "drivingLicensePhoto",
     "rightToLicense",
     "licenseNumber",
     "categoriesHeld",
@@ -378,22 +418,35 @@ const Form = () => {
   };
   const finalSubmit = async (data) => {
     try {
+      // Convert File objects to Base64 strings (data URI) if present
+      const convertFile = (file) =>
+        new Promise((resolve, reject) => {
+          const reader = new FileReader();
+          reader.onload = () => resolve(reader.result);
+          reader.onerror = (e) => reject(e);
+          reader.readAsDataURL(file);
+        });
+
+      const payload = { ...data };
+      if (payload.profilePhoto instanceof File) {
+        payload.profilePhoto = await convertFile(payload.profilePhoto);
+      }
+      if (payload.drivingLicensePhoto instanceof File) {
+        payload.drivingLicensePhoto = await convertFile(payload.drivingLicensePhoto);
+      }
+
       const response = await fetch("/api/employees", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(data),
+        body: JSON.stringify(payload),
       });
 
       const result = await response.json();
-
       console.log(result);
-      setSubmissionSuccess(true);
+       if (result.success) setSubmissionSuccess(true);
     } catch (error) {
-      //create popup modal to display error message
-     
-
       console.log(error);
     }
   };
@@ -483,6 +536,8 @@ const Form = () => {
                   register={register}
                   errors={errors}
                   addressFields={addressFields}
+                  setValue={setValue}
+                  watch={watch}
                 />
               </>
             )}
@@ -493,6 +548,8 @@ const Form = () => {
                   register={register}
                   errors={errors}
                   employmentFields={employmentFields}
+                  setValue={setValue}
+                  watch={watch}
                 />
               </>
             )}

@@ -112,6 +112,8 @@ const EmployeeApplicationSchema = new Schema(
     yearsOfExperience: Number,
 
     profilePhotoMatches: String,
+    profilePhoto: { type: String },
+    drivingLicensePhoto: { type: String },
 
     // ===== Address =====
 
@@ -199,6 +201,8 @@ const EmployeeApplicationSchema = new Schema(
       cv: String,
       dbsCertificate: String,
       other: [String],
+      profilePhoto: String,
+      drivingLicensePhoto: String,
     },
 
     // ===== Admin =====

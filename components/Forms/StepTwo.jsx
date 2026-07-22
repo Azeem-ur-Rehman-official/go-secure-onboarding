@@ -1,6 +1,7 @@
-import React from 'react'
+import React, { useState } from 'react'
 
-const StepTwo = ({ register, errors,employmentFields }) => {
+const StepTwo = ({ register, errors, employmentFields, setValue, watch }) => {
+  const [licensePreview, setLicensePreview] = useState(null);
   return (
     <div className="space-y-12">
       {/* =================== SECTION 4: DRIVING LICENSE (OPTIONAL) =================== */}
@@ -14,7 +15,53 @@ const StepTwo = ({ register, errors,employmentFields }) => {
           </h2>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5">
+        <div className="flex flex-col sm:flex-row items-center gap-6 p-4 bg-slate-50 border border-slate-200 rounded-xl">
+  <div className="relative">
+    <div className="w-24 h-24  overflow-hidden border-2 border-[#23466f] bg-slate-200 flex items-center justify-center shadow-inner">
+      {licensePreview ? (
+        <img src={licensePreview} alt="License Preview" className="w-full h-full object-cover" />
+      ) : (
+        <svg className="w-12 h-12 text-slate-400" fill="currentColor" viewBox="0 0 20 20">
+          <path fillRule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clipRule="evenodd" />
+        </svg>
+      )}
+    </div>
+  </div>
+  <div className="flex flex-col gap-2 text-center sm:text-left">
+    <label className="text-sm font-semibold text-slate-700">
+      Driving License Photo <span className="text-xs font-normal text-slate-400">(Optional)</span>
+    </label>
+    <div className="flex items-center gap-3">
+      <label className="cursor-pointer px-4 py-2 text-xs font-semibold text-white bg-[#23466f] hover:bg-[#1b3758] rounded-lg transition-all shadow-sm">
+        Upload Photo
+        <input type="file" accept="image/*" className="hidden" onChange={(e) => {
+          const file = e.target.files[0];
+          if (file) {
+            setLicensePreview(URL.createObjectURL(file));
+            if (setValue) setValue("drivingLicensePhoto", file, { shouldValidate: true });
+          }
+        }} />
+      </label>
+      {licensePreview && (
+        <button type="button" onClick={() => {
+          setLicensePreview(null);
+          if (setValue) setValue("drivingLicensePhoto", null);
+        }} className="px-3 py-2 text-xs font-medium text-red-600 hover:text-red-800 transition-colors">
+          Remove
+        </button>
+      )}
+    </div>
+    <p className="text-[11px] text-slate-400">
+      Allowed formats: JPG, PNG, or WEBP (Max size: 5MB)
+    </p>
+    {errors?.drivingLicensePhoto && (
+      <p className="text-xs text-red-500 font-medium">
+        {errors.drivingLicensePhoto.message}
+      </p>
+    )}
+  </div>
+</div>
+<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5">
           <div className="flex flex-col gap-1.5 md:col-span-2">
             <label className="text-sm font-semibold text-slate-600">
               Do you hold a full driving licence?
